@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Valentine Surprise 💖</title>
+
+<style>
+body {
+    margin: 0;
+    height: 100vh;
+    background: linear-gradient(135deg, #ff758c, #ff7eb3);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Segoe UI', sans-serif;
+    overflow: hidden;
+}
+
+.card {
+    background: rgba(255,255,255,0.2);
+    backdrop-filter: blur(12px);
+    padding: 40px;
+    border-radius: 25px;
+    text-align: center;
+    box-shadow: 0 0 25px rgba(255,0,80,0.4);
+    width: 380px;
+    animation: fadeIn 1.5s ease;
+}
+
+h1 {
+    color: white;
+    font-size: 2.2em;
+}
+
+p {
+    color: #fff;
+    font-size: 1.1em;
+}
+
+button {
+    padding: 15px 25px;
+    font-size: 18px;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    margin: 15px;
+    transition: 0.3s;
+}
+
+#yesBtn {
+    background: #ff2d55;
+    color: white;
+}
+
+#yesBtn:hover {
+    transform: scale(1.1);
+}
+
+#noBtn {
+    background: #444;
+    color: white;
+    position: absolute;
+}
+
+select, input {
+    padding: 10px;
+    border-radius: 10px;
+    border: none;
+    margin: 10px;
+    width: 80%;
+    font-size: 16px;
+}
+
+.heart {
+    position: fixed;
+    color: red;
+    font-size: 20px;
+    animation: float 5s linear infinite;
+}
+
+.firework {
+    position: fixed;
+    width: 10px;
+    height: 10px;
+    background: gold;
+    border-radius: 50%;
+    animation: explode 1s ease-out forwards;
+}
+
+img {
+    width: 100%;
+    border-radius: 15px;
+    margin-top: 15px;
+}
+
+@keyframes float {
+    0% { transform: translateY(100vh); opacity: 1; }
+    100% { transform: translateY(-10vh); opacity: 0; }
+}
+
+@keyframes fadeIn {
+    from {opacity: 0; transform: scale(0.8);}
+    to {opacity: 1; transform: scale(1);}
+}
+
+@keyframes explode {
+    0% { transform: scale(1); opacity: 1; }
+    100% { transform: scale(5); opacity: 0; }
+}
+</style>
+</head>
+
+<body>
+
+<!-- 🎵 Background Music -->
+<audio id="bgMusic" loop>
+  <source src="othayadi.mp3" type="audio/mpeg">
+</audio>
+
+<div class="card" id="mainCard">
+    <h1>Are you ready for Valentine's Day? ❤️</h1>
+
+    <button id="yesBtn" onclick="showOptions()">Yes ❤️</button>
+    <button id="noBtn" onmouseover="moveNo()">No 💔</button>
+</div>
+
+<script>
+let photos = [
+  "photo1.jpg",
+  "photo2.jpg",
+  "photo3.jpg",
+  "photo4.jpg",
+  "photo5.jpg",
+  "photo6.jpg"
+];
+
+let currentPhoto = 0;
+
+function moveNo() {
+    const noBtn = document.getElementById("noBtn");
+    const x = Math.random() * (window.innerWidth - 100);
+    const y = Math.random() * (window.innerHeight - 50);
+    noBtn.style.left = x + "px";
+    noBtn.style.top = y + "px";
+}
+
+function showOptions() {
+    document.getElementById("bgMusic").play();
+
+    document.getElementById("mainCard").innerHTML = `
+        <h1>Yayyy 💖🥰</h1>
+        <p>Choose our movie & time 🎬⏰</p>
+
+        <select id="movie">
+            <option disabled selected>Select a movie 🍿</option>
+            <option>Notting Hill (English)</option>
+            <option>Sillunu Oru Kaadhal (Tamil)</option>
+            <option>Jab We Met (Hindi)</option>
+        </select>
+
+        <input type="time" id="time">
+
+        <button id="yesBtn" onclick="finalMessage()">Confirm Date 💌</button>
+    `;
+}
+
+function finalMessage() {
+    const movie = document.getElementById("movie").value;
+    const time = document.getElementById("time").value;
+
+    document.getElementById("mainCard").innerHTML = `
+        <h1>It's a Date! 💖🎉</h1>
+        <p>Movie: <b>${movie}</b></p>
+        <p>Time: <b>${time}</b></p>
+
+        <div id="slideshow">
+            <img id="slideImage" src="${photos[0]}">
+        </div>
+
+        <p>I can't wait to spend this special moment with you ❤️🌹</p>
+        <p>Happy Valentine's Day 💕</p>
+    `;
+
+    startSlideshow();
+    startFireworks();
+}
+
+function startSlideshow() {
+    setInterval(() => {
+        currentPhoto = (currentPhoto + 1) % photos.length;
+        document.getElementById("slideImage").src = photos[currentPhoto];
+    }, 7000); // 7 seconds per photo
+}
+
+function createHeart() {
+    const heart = document.createElement("div");
+    heart.classList.add("heart");
+    heart.innerHTML = "❤️";
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.fontSize = Math.random() * 20 + 10 + "px";
+    document.body.appendChild(heart);
+
+    setTimeout(() => heart.remove(), 5000);
+}
+setInterval(createHeart, 300);
+
+function startFireworks() {
+    setInterval(() => {
+        const fw = document.createElement("div");
+        fw.classList.add("firework");
+        fw.style.left = Math.random() * 100 + "vw";
+        fw.style.top = Math.random() * 100 + "vh";
+        document.body.appendChild(fw);
+
+        setTimeout(() => fw.remove(), 1000);
+    }, 200);
+}
+</script>
+
+</body>
+</html>
